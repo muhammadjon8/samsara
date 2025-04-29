@@ -49,24 +49,97 @@ export const sendVehicleDefLevelAlert = async (req: Request, res: Response) => {
   }
 };
 
-export const sendHarshEventAlert = async (req: Request, res: Response) => {
+// Individual harsh event handlers for direct API access if needed
+export const sendHarshBrakeAlert = async (req: Request, res: Response) => {
   res
     .status(200)
-    .json({ success: true, message: "Harsh Event Webhook received" });
+    .json({ success: true, message: "Harsh Brake Event Webhook received" });
 
   try {
     console.log(
-      "Incoming Harsh Event Alert:",
+      "Incoming Harsh Brake Alert:",
       JSON.stringify(req.body, null, 2)
     );
     const webhookData = req.body as HarshEventAlertIncidentEvent;
-    const message = await botService.sendHarshEventAlert(webhookData);
+    const message = await botService.sendHarshBrakeAlert(webhookData);
     await bot.telegram.sendMessage(CHAT_ID, message, {
       parse_mode: "MarkdownV2",
     });
-    console.log("✅ Harsh Event Alert sent to Telegram");
+    console.log("✅ Harsh Brake Alert sent to Telegram");
   } catch (error) {
-    console.error("❌ Error sending Harsh Event Alert:", error);
+    console.error("❌ Error sending Harsh Brake Alert:", error);
+  }
+};
+
+export const sendCrashAlert = async (req: Request, res: Response) => {
+  res
+    .status(200)
+    .json({ success: true, message: "Crash Event Webhook received" });
+
+  try {
+    console.log("Incoming Crash Alert:", JSON.stringify(req.body, null, 2));
+    const webhookData = req.body as HarshEventAlertIncidentEvent;
+    const message = await botService.sendCrashAlert(webhookData);
+    await bot.telegram.sendMessage(CHAT_ID, message, {
+      parse_mode: "MarkdownV2",
+    });
+    console.log("✅ Crash Alert sent to Telegram");
+  } catch (error) {
+    console.error("❌ Error sending Crash Alert:", error);
+  }
+};
+
+export const sendDistractedDrivingAlert = async (
+  req: Request,
+  res: Response
+) => {
+  res
+    .status(200)
+    .json({
+      success: true,
+      message: "Distracted Driving Event Webhook received",
+    });
+
+  try {
+    console.log(
+      "Incoming Distracted Driving Alert:",
+      JSON.stringify(req.body, null, 2)
+    );
+    const webhookData = req.body as HarshEventAlertIncidentEvent;
+    const message = await botService.sendDistractedDrivingAlert(webhookData);
+    await bot.telegram.sendMessage(CHAT_ID, message, {
+      parse_mode: "MarkdownV2",
+    });
+    console.log("✅ Distracted Driving Alert sent to Telegram");
+  } catch (error) {
+    console.error("❌ Error sending Distracted Driving Alert:", error);
+  }
+};
+
+export const sendHarshAccelerationAlert = async (
+  req: Request,
+  res: Response
+) => {
+  res
+    .status(200)
+    .json({
+      success: true,
+      message: "Harsh Acceleration Event Webhook received",
+    });
+
+  try {
+    console.log(
+      "Incoming Harsh Acceleration Alert:",
+      JSON.stringify(req.body, null, 2)
+    );
+    const webhookData = req.body as HarshEventAlertIncidentEvent;
+    const message = await botService.sendHarshAccelerationAlert(webhookData);
+    await bot.telegram.sendMessage(CHAT_ID, message, {
+      parse_mode: "MarkdownV2",
+    });
+    console.log("✅ Harsh Acceleration Alert sent to Telegram");
+  } catch (error) {
+    console.error("❌ Error sending Harsh Acceleration Alert:", error);
   }
 };
 

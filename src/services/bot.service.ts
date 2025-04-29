@@ -59,31 +59,95 @@ class SamsaraBotService {
 
     return message;
   }
-  async sendHarshEventAlert(
+
+  async sendHarshBrakeAlert(
     webhookData: HarshEventAlertIncidentEvent
   ): Promise<string> {
     const condition = webhookData.data.conditions[0];
     const { vehicle, trailer, driver } = condition.details.harshEvent;
 
-    const description = condition.description.toLowerCase();
+    const recommendation =
+      "Avoid sudden braking unless necessary. Maintain a safe distance.";
 
-    // Determine recommendation based on event type
-    let recommendation = "Please drive with caution.";
-    if (description.includes("brake")) {
-      recommendation =
-        "Avoid sudden braking unless necessary. Maintain a safe distance.";
-    } else if (description.includes("crash")) {
-      recommendation =
-        "Report the incident immediately. Ensure all parties are safe.";
-    } else if (description.includes("distracted")) {
-      recommendation =
-        "Avoid distractions. Stay focused on the road at all times.";
-    } else if (description.includes("acceleration")) {
-      recommendation =
-        "Accelerate smoothly to avoid cargo shifts or mechanical stress.";
-    }
+    const message = `🚨⚠️ *Harsh Braking Event Alert\\!*  
+  
+🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
+      vehicle.serial
+    )}\\)  
+🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
+      trailer.trailerSerialNumber
+    )}\\)  
+🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
+📉 *Event:* ${escapeMarkdown(condition.description)}  
+🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
+💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
+[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
 
-    const message = `🚨⚠️ *Harsh Driving Event Alert\\!*  
+    return message;
+  }
+
+  async sendCrashAlert(
+    webhookData: HarshEventAlertIncidentEvent
+  ): Promise<string> {
+    const condition = webhookData.data.conditions[0];
+    const { vehicle, trailer, driver } = condition.details.harshEvent;
+
+    const recommendation =
+      "Report the incident immediately. Ensure all parties are safe.";
+
+    const message = `🚨⚠️ *Crash Event Alert\\!*  
+  
+🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
+      vehicle.serial
+    )}\\)  
+🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
+      trailer.trailerSerialNumber
+    )}\\)  
+🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
+📉 *Event:* ${escapeMarkdown(condition.description)}  
+🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
+💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
+[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
+
+    return message;
+  }
+
+  async sendDistractedDrivingAlert(
+    webhookData: HarshEventAlertIncidentEvent
+  ): Promise<string> {
+    const condition = webhookData.data.conditions[0];
+    const { vehicle, trailer, driver } = condition.details.harshEvent;
+
+    const recommendation =
+      "Avoid distractions. Stay focused on the road at all times.";
+
+    const message = `🚨⚠️ *Distracted Driving Event Alert\\!*  
+  
+🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
+      vehicle.serial
+    )}\\)  
+🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
+      trailer.trailerSerialNumber
+    )}\\)  
+🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
+📉 *Event:* ${escapeMarkdown(condition.description)}  
+🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
+💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
+[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
+
+    return message;
+  }
+
+  async sendHarshAccelerationAlert(
+    webhookData: HarshEventAlertIncidentEvent
+  ): Promise<string> {
+    const condition = webhookData.data.conditions[0];
+    const { vehicle, trailer, driver } = condition.details.harshEvent;
+
+    const recommendation =
+      "Accelerate smoothly to avoid cargo shifts or mechanical stress.";
+
+    const message = `🚨⚠️ *Harsh Acceleration Event Alert\\!*  
   
 🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
       vehicle.serial
@@ -122,4 +186,5 @@ class SamsaraBotService {
     return message;
   }
 }
+
 export default new SamsaraBotService();
