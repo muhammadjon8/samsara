@@ -93,12 +93,10 @@ export const sendDistractedDrivingAlert = async (
   req: Request,
   res: Response
 ) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      message: "Distracted Driving Event Webhook received",
-    });
+  res.status(200).json({
+    success: true,
+    message: "Distracted Driving Event Webhook received",
+  });
 
   try {
     console.log(
@@ -120,12 +118,10 @@ export const sendHarshAccelerationAlert = async (
   req: Request,
   res: Response
 ) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      message: "Harsh Acceleration Event Webhook received",
-    });
+  res.status(200).json({
+    success: true,
+    message: "Harsh Acceleration Event Webhook received",
+  });
 
   try {
     console.log(
@@ -161,5 +157,30 @@ export const sendSevereSpeedingAlert = async (req: Request, res: Response) => {
     console.log("✅ Severe Speeding Alert sent to Telegram");
   } catch (error) {
     console.error("❌ Error sending Severe Speeding Alert:", error);
+  }
+};
+
+export const sendHarshTurnAlert = async (req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: "Harsh Turn Event Webhook received",
+  });
+
+  try {
+    console.log(
+      "Incoming Harsh Turn Alert:",
+      JSON.stringify(req.body, null, 2)
+    );
+
+    const webhookData = req.body as HarshEventAlertIncidentEvent;
+    const message = await botService.sendHarshTurnAlert(webhookData);
+
+    await bot.telegram.sendMessage(CHAT_ID, message, {
+      parse_mode: "MarkdownV2",
+    });
+
+    console.log("✅ Harsh Turn Alert sent to Telegram");
+  } catch (error) {
+    console.error("❌ Error sending Harsh Turn Alert:", error);
   }
 };

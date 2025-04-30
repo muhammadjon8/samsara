@@ -185,6 +185,31 @@ class SamsaraBotService {
 
     return message;
   }
+  async sendHarshTurnAlert(
+    webhookData: HarshEventAlertIncidentEvent
+  ): Promise<string> {
+    const condition = webhookData.data.conditions[0];
+    const { vehicle, trailer, driver } = condition.details.harshEvent;
+
+    const recommendation =
+      "Take turns more gradually to maintain vehicle and cargo stability.";
+
+    const message = `🚨⚠️ *Harsh Turn Event Alert\\!*  
+
+🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
+      vehicle.serial
+    )}\\)  
+🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
+      trailer.trailerSerialNumber
+    )}\\)  
+🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
+📉 *Event:* ${escapeMarkdown(condition.description)}  
+🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
+💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
+[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
+
+    return message;
+  }
 }
 
 export default new SamsaraBotService();

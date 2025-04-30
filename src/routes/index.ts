@@ -5,6 +5,7 @@ import {
   sendFuelLevelAlert,
   sendHarshAccelerationAlert,
   sendHarshBrakeAlert,
+  sendHarshTurnAlert,
   sendSevereSpeedingAlert,
   sendVehicleDefLevelAlert,
 } from "../controllers/bot.controller";
@@ -18,5 +19,6 @@ router.post("/acceleration", sendHarshAccelerationAlert);
 router.post("/crash", sendCrashAlert);
 router.post("/severe-speeding", sendSevereSpeedingAlert);
 router.post("/distracted", sendDistractedDrivingAlert);
+router.post("/harsh-turn", sendHarshTurnAlert);
 
 export default router;
