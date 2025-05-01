@@ -1,8 +1,9 @@
 export type EntityWithTags = {
   id: string;
   externalIds: {
-    maintenanceId: string;
+    [key: string]: string;
   };
+
   name: string;
   tags: Array<{
     id: string;
@@ -41,7 +42,7 @@ export type Trailer = EntityWithTags & {
 
 export type Driver = EntityWithTags & {
   externalIds: {
-    payrollId: string;
+    [key: string]: string;
   };
   attributes: Array<{
     id: string;

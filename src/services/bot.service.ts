@@ -4,6 +4,7 @@ import { VehicleDefLevelAlertIncidentEvent } from "../types/webhook2/def-level.t
 import { escapeMarkdown } from "../utils/escape-markdown.util";
 import { HarshEventAlertIncidentEvent } from "../types/webhook2/harsh-event.type";
 import { SevereSpeedingAlertIncidentEvent } from "../types/webhook2/severe-speeding.type";
+import { buildAlertMessage } from "../utils/build-message";
 
 class SamsaraBotService {
   constructor() {}
@@ -17,47 +18,32 @@ class SamsaraBotService {
     const trailer = condition.details.fuelLevelPercentage.trailer;
     const driver = condition.details.fuelLevelPercentage.driver;
 
-    const message = `🚨⚠️ *Low Fuel Level Alert\\!*  
-  
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Description:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Low Fuel Level",
+      webhookData.data.happenedAtTime
+    );
   }
 
   async sendVehicleDefLevelAlert(
     webhookData: VehicleDefLevelAlertIncidentEvent
   ): Promise<string> {
-    const escapeMarkdown = (text: string): string =>
-      text.replace(/([_*\[\]()~`>#+=|{}.!\\-])/g, "\\$1");
-
     const condition = webhookData.data.conditions[0];
     const vehicle = condition.details.vehicleDefLevelPercentage.vehicle;
     const trailer = condition.details.vehicleDefLevelPercentage.trailer;
     const driver = condition.details.vehicleDefLevelPercentage.driver;
 
-    const message = `🚨⚠️ *Low DEF Level Alert\\!*  
-  
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Description:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Low DEF Level",
+      webhookData.data.happenedAtTime
+    );
   }
 
   async sendHarshBrakeAlert(
@@ -69,21 +55,15 @@ class SamsaraBotService {
     const recommendation =
       "Avoid sudden braking unless necessary. Maintain a safe distance.";
 
-    const message = `🚨⚠️ *Harsh Braking Event Alert\\!*  
-  
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Event:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Harsh Braking Event",
+      webhookData.data.happenedAtTime,
+      recommendation
+    );
   }
 
   async sendCrashAlert(
@@ -95,21 +75,15 @@ class SamsaraBotService {
     const recommendation =
       "Report the incident immediately. Ensure all parties are safe.";
 
-    const message = `🚨⚠️ *Crash Event Alert\\!*  
-  
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Event:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Crash Event",
+      webhookData.data.happenedAtTime,
+      recommendation
+    );
   }
 
   async sendDistractedDrivingAlert(
@@ -121,21 +95,15 @@ class SamsaraBotService {
     const recommendation =
       "Avoid distractions. Stay focused on the road at all times.";
 
-    const message = `🚨⚠️ *Distracted Driving Event Alert\\!*  
-  
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Event:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Distracted Driving Event",
+      webhookData.data.happenedAtTime,
+      recommendation
+    );
   }
 
   async sendHarshAccelerationAlert(
@@ -147,21 +115,15 @@ class SamsaraBotService {
     const recommendation =
       "Accelerate smoothly to avoid cargo shifts or mechanical stress.";
 
-    const message = `🚨⚠️ *Harsh Acceleration Event Alert\\!*  
-  
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Event:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Harsh Acceleration Event",
+      webhookData.data.happenedAtTime,
+      recommendation
+    );
   }
 
   async sendSevereSpeedingAlert(
@@ -174,9 +136,9 @@ class SamsaraBotService {
 
     const message = `🚨⚠️ *Severe Speeding Alert\\!*  
   
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)}  
-🔢 *License Plate:* ${escapeMarkdown(vehicle.licensePlate)}  
-🆔 *VIN:* ${escapeMarkdown(vehicle.vehicleVin)}  
+🚚 *Vehicle:* ${escapeMarkdown(vehicle.name ?? "Unknown")}  
+🔢 *License Plate:* ${escapeMarkdown(vehicle.licensePlate ?? "Unknown")}  
+🆔 *VIN:* ${escapeMarkdown(vehicle.vehicleVin ?? "Unknown")}  
 🕒 *Start Time:* ${escapeMarkdown(speeding.startTime)}  
 🛣️ *Trip Start Time:* ${escapeMarkdown(speeding.tripStartTime)}  
 📉 *Description:* ${escapeMarkdown(condition.description)}  
@@ -185,6 +147,7 @@ class SamsaraBotService {
 
     return message;
   }
+
   async sendHarshTurnAlert(
     webhookData: HarshEventAlertIncidentEvent
   ): Promise<string> {
@@ -194,21 +157,15 @@ class SamsaraBotService {
     const recommendation =
       "Take turns more gradually to maintain vehicle and cargo stability.";
 
-    const message = `🚨⚠️ *Harsh Turn Event Alert\\!*  
-
-🚚 *Vehicle:* ${escapeMarkdown(vehicle.name)} \\(Serial: ${escapeMarkdown(
-      vehicle.serial
-    )}\\)  
-🛻 *Trailer:* ${escapeMarkdown(trailer.name)} \\(Serial: ${escapeMarkdown(
-      trailer.trailerSerialNumber
-    )}\\)  
-🧑‍✈️ *Driver:* ${escapeMarkdown(driver.name)}  
-📉 *Event:* ${escapeMarkdown(condition.description)}  
-🕒 *Time:* ${escapeMarkdown(webhookData.data.happenedAtTime)}  
-💡 *Recommendation:* ${escapeMarkdown(recommendation)}  
-[🔗View Incident](${escapeMarkdown(webhookData.data.incidentUrl)})`;
-
-    return message;
+    return buildAlertMessage(
+      vehicle,
+      trailer,
+      driver,
+      condition,
+      "Harsh Turn Event",
+      webhookData.data.happenedAtTime,
+      recommendation
+    );
   }
 }
 

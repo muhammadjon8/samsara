@@ -1,12 +1,17 @@
-import { BaseAlertIncidentEvent, Driver, Trailer, Vehicle } from "./base-types.type";
+import {
+  BaseAlertIncidentEvent,
+  Driver,
+  Trailer,
+  Vehicle,
+} from "./base-types.type";
 
-type FuelLevelConditionDetails = {
+export type FuelLevelConditionDetails = {
   vehicle: Vehicle;
-  trailer: Trailer;
-  driver: Driver;
+  trailer?: Trailer;
+  driver?: Driver;
 };
 
-type FuelLevelCondition = {
+export type FuelLevelCondition = {
   triggerId: number;
   description: string;
   details: {

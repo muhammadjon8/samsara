@@ -78,6 +78,7 @@ export const sendCrashAlert = async (req: Request, res: Response) => {
 
   try {
     console.log("Incoming Crash Alert:", JSON.stringify(req.body, null, 2));
+    
     const webhookData = req.body as HarshEventAlertIncidentEvent;
     const message = await botService.sendCrashAlert(webhookData);
     await bot.telegram.sendMessage(CHAT_ID, message, {

@@ -7,8 +7,8 @@ import {
 
 export type VehicleDefLevelConditionDetails = {
   vehicle: Vehicle;
-  trailer: Trailer;
-  driver: Driver;
+  trailer?: Trailer;
+  driver?: Driver;
 };
 
 export type VehicleDefLevelCondition = {

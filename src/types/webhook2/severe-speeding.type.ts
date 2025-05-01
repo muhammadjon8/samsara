@@ -3,11 +3,11 @@ export type SevereSpeedingConditionDetails = {
   tripStartTime: string;
   vehicle: {
     id: string;
-    name: string;
-    licensePlate: string;
-    vehicleVin: string;
-    externalIds: {
-      maintenanceId: string;
+    name?: string;
+    licensePlate?: string;
+    vehicleVin?: string;
+    externalIds?: {
+      [key: string]: string;
     };
   };
 };

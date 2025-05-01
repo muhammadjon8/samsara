@@ -7,8 +7,8 @@ import {
 
 export type HarshEventConditionDetails = {
   vehicle: Vehicle;
-  trailer: Trailer;
-  driver: Driver;
+  trailer?: Trailer;
+  driver?: Driver;
 };
 
 export type HarshEventCondition = {
