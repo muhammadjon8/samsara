@@ -1,23 +1,17 @@
 import {
-  BaseAlertIncidentEvent,
+  AlertIncidentEvent,
   Driver,
   Trailer,
   Vehicle,
 } from "./base-types.type";
 
-export type VehicleDefLevelConditionDetails = {
-  vehicle: Vehicle;
-  trailer?: Trailer;
-  driver?: Driver;
-};
-
-export type VehicleDefLevelCondition = {
-  triggerId: number;
-  description: string;
-  details: {
-    vehicleDefLevelPercentage: VehicleDefLevelConditionDetails;
+interface VehicleDefLevelDetails {
+  vehicleDefLevelPercentage: {
+    vehicle: Vehicle;
+    trailer?: Trailer;
+    driver?: Driver;
   };
-};
+}
 
-export type VehicleDefLevelAlertIncidentEvent =
-  BaseAlertIncidentEvent<VehicleDefLevelCondition>;
+export type VehicleDefLevelIncidentEvent =
+  AlertIncidentEvent<VehicleDefLevelDetails>;

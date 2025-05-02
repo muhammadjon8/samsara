@@ -12,12 +12,12 @@ import {
 
 const router = Router();
 
+router.post("/harsh-brake", sendHarshBrakeAlert);
 router.post("/fuel", sendFuelLevelAlert);
+router.post("/severe-speeding", sendSevereSpeedingAlert);
 router.post("/def", sendVehicleDefLevelAlert);
-router.post("/brake", sendHarshBrakeAlert);
 router.post("/acceleration", sendHarshAccelerationAlert);
 router.post("/crash", sendCrashAlert);
-router.post("/severe-speeding", sendSevereSpeedingAlert);
 router.post("/distracted", sendDistractedDrivingAlert);
 router.post("/harsh-turn", sendHarshTurnAlert);
 

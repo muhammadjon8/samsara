@@ -1,23 +1,16 @@
-import {
-  BaseAlertIncidentEvent,
-  Driver,
-  Trailer,
-  Vehicle,
-} from "./base-types.type";
+import { AlertIncidentEvent } from "./base-types.type";
 
-export type FuelLevelConditionDetails = {
-  vehicle: Vehicle;
-  trailer?: Trailer;
-  driver?: Driver;
-};
-
-export type FuelLevelCondition = {
-  triggerId: number;
-  description: string;
-  details: {
-    fuelLevelPercentage: FuelLevelConditionDetails;
+interface FuelLevelDetails {
+  fuelLevelPercentage: {
+    vehicle: {
+      id: string;
+      externalIds?: {
+        "samsara.serial": string;
+        "samsara.vin": string;
+      };
+      name?: string;
+      serial?: string;
+    };
   };
-};
-
-export type FuelLevelAlertIncidentEvent =
-  BaseAlertIncidentEvent<FuelLevelCondition>;
+}
+export type FuelLevelIncidentEvent = AlertIncidentEvent<FuelLevelDetails>;

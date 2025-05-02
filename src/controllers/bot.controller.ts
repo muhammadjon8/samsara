@@ -1,11 +1,11 @@
 import { Telegraf } from "telegraf";
 import botService from "../services/bot.service";
-import { FuelLevelAlertIncidentEvent } from "../types/webhook2/fuel-level.type";
-import { VehicleDefLevelAlertIncidentEvent } from "../types/webhook2/def-level.type";
 import { HarshEventAlertIncidentEvent } from "../types/webhook2/harsh-event.type";
-import { SevereSpeedingAlertIncidentEvent } from "../types/webhook2/severe-speeding.type";
 import { Request, Response } from "express";
 import { configDotenv } from "dotenv";
+import { FuelLevelIncidentEvent } from "../types/webhook2/fuel-level.type";
+import { VehicleDefLevelIncidentEvent } from "../types/webhook2/def-level.type";
+import { SevereSpeedingIncidentEvent } from "../types/webhook2/severe-speeding.type";
 
 configDotenv();
 
@@ -22,7 +22,7 @@ export const sendFuelLevelAlert = async (req: Request, res: Response) => {
       "Incoming Fuel Level Alert:",
       JSON.stringify(req.body, null, 2)
     );
-    const webhookData = req.body as FuelLevelAlertIncidentEvent;
+    const webhookData = req.body as FuelLevelIncidentEvent;
     const message = await botService.sendFuelLevelAlert(webhookData, res);
     await bot.telegram.sendMessage(CHAT_ID, message, {
       parse_mode: "MarkdownV2",
@@ -38,8 +38,8 @@ export const sendVehicleDefLevelAlert = async (req: Request, res: Response) => {
 
   try {
     console.log("Incoming DEF Level Alert:", JSON.stringify(req.body, null, 2));
-    const webhookData = req.body as VehicleDefLevelAlertIncidentEvent;
-    const message = await botService.sendVehicleDefLevelAlert(webhookData);
+    const webhookData = req.body as VehicleDefLevelIncidentEvent;
+    const message = await botService.sendVehicleDefLevelAlert(webhookData, res);
     await bot.telegram.sendMessage(CHAT_ID, message, {
       parse_mode: "MarkdownV2",
     });
@@ -49,7 +49,6 @@ export const sendVehicleDefLevelAlert = async (req: Request, res: Response) => {
   }
 };
 
-// Individual harsh event handlers for direct API access if needed
 export const sendHarshBrakeAlert = async (req: Request, res: Response) => {
   res
     .status(200)
@@ -78,7 +77,7 @@ export const sendCrashAlert = async (req: Request, res: Response) => {
 
   try {
     console.log("Incoming Crash Alert:", JSON.stringify(req.body, null, 2));
-    
+
     const webhookData = req.body as HarshEventAlertIncidentEvent;
     const message = await botService.sendCrashAlert(webhookData);
     await bot.telegram.sendMessage(CHAT_ID, message, {
@@ -150,7 +149,7 @@ export const sendSevereSpeedingAlert = async (req: Request, res: Response) => {
       "Incoming Severe Speeding Alert:",
       JSON.stringify(req.body, null, 2)
     );
-    const webhookData = req.body as SevereSpeedingAlertIncidentEvent;
+    const webhookData = req.body as SevereSpeedingIncidentEvent;
     const message = await botService.sendSevereSpeedingAlert(webhookData, res);
     await bot.telegram.sendMessage(CHAT_ID, message, {
       parse_mode: "MarkdownV2",

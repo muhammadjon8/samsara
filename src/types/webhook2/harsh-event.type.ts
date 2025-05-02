@@ -1,23 +1,17 @@
-import {
-  BaseAlertIncidentEvent,
-  Driver,
-  Trailer,
-  Vehicle,
-} from "./base-types.type";
+import { AlertIncidentEvent } from "./base-types.type";
 
-export type HarshEventConditionDetails = {
-  vehicle: Vehicle;
-  trailer?: Trailer;
-  driver?: Driver;
-};
-
-export type HarshEventCondition = {
-  triggerId: number;
-  description: string;
-  details: {
-    harshEvent: HarshEventConditionDetails;
+interface HarshEventDetails {
+  harshEvent: {
+    vehicle: {
+      id: string;
+      externalIds?: {
+        "samsara.serial": string;
+        "samsara.vin": string;
+      };
+      name?: string;
+      serial?: string;
+    };
   };
-};
-
+}
 export type HarshEventAlertIncidentEvent =
-  BaseAlertIncidentEvent<HarshEventCondition>;
+  AlertIncidentEvent<HarshEventDetails>;
