@@ -17,25 +17,20 @@ class SamsaraBotService {
     webhookData: FuelLevelIncidentEvent,
     res: Response
   ): Promise<string> {
-    try {
-      const driver = webhookData.data.conditions[0].details.fuelLevelPercentage;
-      console.log("driver.id", driver.vehicle.id);
-      const vehicle = await getVehicleDetails(driver.vehicle.id);
-      const incidentUrl = webhookData.data.incidentUrl;
+    const driver = webhookData.data.conditions[0].details.fuelLevelPercentage;
+    console.log("driver.id", driver.vehicle.id);
+    const vehicle = await getVehicleDetails(driver.vehicle.id);
+    const incidentUrl = webhookData.data.incidentUrl;
 
-      return (
-        `⛽️ Fuel Low Detected ⛽️\n\n` +
-        `👤 Driver: ${escapeMarkdown(vehicle.data.name)}\n` +
-        `🔻 Fuel low: Less than 10% ${escapeMarkdown("(past 15 minutes)")}\n` +
-        `⚠️ Recommend: Please, refuel\n` +
-        (incidentUrl
-          ? `\n🔗 [View Incident](${escapeMarkdown(incidentUrl)})`
-          : "")
-      );
-    } catch (error) {
-      console.error("Error in sendFuelLevelAlert:", error);
-      return "Error processing fuel level alert. Please check logs for details.";
-    }
+    return (
+      `⛽️ Fuel Low Detected ⛽️\n\n` +
+      `👤 Driver: ${escapeMarkdown(vehicle.data.name)}\n` +
+      `🔻 Fuel low: Less than 10% ${escapeMarkdown("(past 15 minutes)")}\n` +
+      `⚠️ Recommend: Please, refuel\n` +
+      (incidentUrl
+        ? `\n🔗 [View Incident](${escapeMarkdown(incidentUrl)})`
+        : "")
+    );
   }
 
   async sendVehicleDefLevelAlert(

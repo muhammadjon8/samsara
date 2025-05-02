@@ -1,6 +1,9 @@
 import { AssetLocationResponse } from "../types/response/speed-data.type";
 import baseApi from "./base-api";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 export const getAssetLocationAndSpeed = async (
   startTime: string,
   endTime: string | null,
