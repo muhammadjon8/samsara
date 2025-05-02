@@ -18,7 +18,6 @@ class SamsaraBotService {
     res: Response
   ): Promise<string> {
     const driver = webhookData.data.conditions[0].details.fuelLevelPercentage;
-    console.log("driver.id", driver.vehicle.id);
     const vehicle = await getVehicleDetails(driver.vehicle.id);
     const incidentUrl = webhookData.data.incidentUrl;
 
