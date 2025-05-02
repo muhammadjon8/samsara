@@ -124,7 +124,7 @@ class SamsaraBotService {
       `👤 Driver: ${escapeMarkdown(vehicleName)}\n` +
       `⏰ Time: ${escapeMarkdown(formatRelativeTime(timestamp))}` +
       locationInfo +
-      `\n\n⚠️ IMMEDIATE ACTION REQUIRED: Please contact driver to confirm safety and dispatch assistance if needed.\n` +
+      escapeMarkdown(`\n\n⚠️ IMMEDIATE ACTION REQUIRED: Please contact driver to confirm safety and dispatch assistance if needed.\n`) +
       `\n[🔗View Incident](${escapeMarkdown(incidentUrl)})`
     );
   }
