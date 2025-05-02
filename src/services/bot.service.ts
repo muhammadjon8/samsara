@@ -122,7 +122,7 @@ class SamsaraBotService {
     return (
       `🚨 URGENT: POSSIBLE CRASH DETECTED 🚨\n\n` +
       `👤 Driver: ${escapeMarkdown(vehicleName)}\n` +
-      `⏰ Time: ${formatRelativeTime(timestamp)}` +
+      `⏰ Time: ${escapeMarkdown(formatRelativeTime(timestamp))}` +
       locationInfo +
       `\n\n⚠️ IMMEDIATE ACTION REQUIRED: Please contact driver to confirm safety and dispatch assistance if needed.\n` +
       `\n[🔗View Incident](${escapeMarkdown(incidentUrl)})`
@@ -177,7 +177,7 @@ class SamsaraBotService {
     return (
       `⚠️⚡ Harsh Acceleration Alert\n\n` +
       `👤 Driver: ${escapeMarkdown(vehicleName)}\n` +
-      `⏰ Time: ${formatRelativeTime(timestamp)}\n\n` +
+      `⏰ Time: ${escapeMarkdown(formatRelativeTime(timestamp))}\n\n` +
       `${escapeMarkdown(recommendation)}\n` +
       `[🔗View Incident](${escapeMarkdown(incidentUrl)})`
     );
@@ -263,7 +263,9 @@ class SamsaraBotService {
     return (
       `⚠️↩️ Harsh Turn Alert\n\n` +
       `👤 Driver: ${escapeMarkdown(vehicleName)}\n` +
-      `⏰ Time: ${formatRelativeTime(timestamp)}\n\n` +
+      `⏰ Time: ${escapeMarkdown(
+        escapeMarkdown(formatRelativeTime(timestamp))
+      )}\n\n` +
       `${escapeMarkdown(recommendation)}\n` +
       `[🔗View Incident](${escapeMarkdown(incidentUrl)})`
     );
