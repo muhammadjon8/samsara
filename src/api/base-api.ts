@@ -13,6 +13,7 @@ if (!baseURL || !apiKey) {
 
 console.log("API Base URL:", baseURL);
 
+
 const baseApi = axios.create({
   baseURL,
   headers: {

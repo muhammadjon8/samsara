@@ -23,7 +23,7 @@ export const sendFuelLevelAlert = async (req: Request, res: Response) => {
       JSON.stringify(req.body, null, 2)
     );
     const webhookData = req.body as FuelLevelIncidentEvent;
-    const message = await botService.sendFuelLevelAlert(webhookData, res);
+    const message = await botService.sendFuelLevelAlert(webhookData);
     await bot.telegram.sendMessage(CHAT_ID, message, {
       parse_mode: "MarkdownV2",
     });
@@ -39,7 +39,7 @@ export const sendVehicleDefLevelAlert = async (req: Request, res: Response) => {
   try {
     console.log("Incoming DEF Level Alert:", JSON.stringify(req.body, null, 2));
     const webhookData = req.body as VehicleDefLevelIncidentEvent;
-    const message = await botService.sendVehicleDefLevelAlert(webhookData, res);
+    const message = await botService.sendVehicleDefLevelAlert(webhookData);
     await bot.telegram.sendMessage(CHAT_ID, message, {
       parse_mode: "MarkdownV2",
     });
@@ -60,10 +60,26 @@ export const sendHarshBrakeAlert = async (req: Request, res: Response) => {
       JSON.stringify(req.body, null, 2)
     );
     const webhookData = req.body as HarshEventAlertIncidentEvent;
-    const message = await botService.sendHarshBrakeAlert(webhookData);
-    await bot.telegram.sendMessage(CHAT_ID, message, {
-      parse_mode: "MarkdownV2",
-    });
+    const { message, url } = await botService.sendHarshBrakeAlert(webhookData);
+    if (!url) {
+      await bot.telegram.sendMessage(
+        CHAT_ID,
+        message + "\nMedia unavailable, sending message without video",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
+    } else {
+      await bot.telegram.sendVideo(
+        CHAT_ID,
+        { url: url },
+        {
+          caption: message,
+          parse_mode: "MarkdownV2",
+        }
+      );
+    }
+
     console.log("✅ Harsh Brake Alert sent to Telegram");
   } catch (error) {
     console.error("❌ Error sending Harsh Brake Alert:", error);
@@ -79,10 +95,25 @@ export const sendCrashAlert = async (req: Request, res: Response) => {
     console.log("Incoming Crash Alert:", JSON.stringify(req.body, null, 2));
 
     const webhookData = req.body as HarshEventAlertIncidentEvent;
-    const message = await botService.sendCrashAlert(webhookData);
-    await bot.telegram.sendMessage(CHAT_ID, message, {
-      parse_mode: "MarkdownV2",
-    });
+    const { message, url } = await botService.sendCrashAlert(webhookData);
+    if (!url) {
+      await bot.telegram.sendMessage(
+        CHAT_ID,
+        message + "\nMedia unavailable, sending message without video",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
+    } else {
+      await bot.telegram.sendVideo(
+        CHAT_ID,
+        { url: url },
+        {
+          caption: message,
+          parse_mode: "MarkdownV2",
+        }
+      );
+    }
     console.log("✅ Crash Alert sent to Telegram");
   } catch (error) {
     console.error("❌ Error sending Crash Alert:", error);
@@ -104,10 +135,27 @@ export const sendDistractedDrivingAlert = async (
       JSON.stringify(req.body, null, 2)
     );
     const webhookData = req.body as HarshEventAlertIncidentEvent;
-    const message = await botService.sendDistractedDrivingAlert(webhookData);
-    await bot.telegram.sendMessage(CHAT_ID, message, {
-      parse_mode: "MarkdownV2",
-    });
+    const { message, url } = await botService.sendDistractedDrivingAlert(
+      webhookData
+    );
+    if (!url) {
+      await bot.telegram.sendMessage(
+        CHAT_ID,
+        message + "\nMedia unavailable, sending message without video",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
+    } else {
+      await bot.telegram.sendVideo(
+        CHAT_ID,
+        { url: url },
+        {
+          caption: message,
+          parse_mode: "MarkdownV2",
+        }
+      );
+    }
     console.log("✅ Distracted Driving Alert sent to Telegram");
   } catch (error) {
     console.error("❌ Error sending Distracted Driving Alert:", error);
@@ -129,10 +177,27 @@ export const sendHarshAccelerationAlert = async (
       JSON.stringify(req.body, null, 2)
     );
     const webhookData = req.body as HarshEventAlertIncidentEvent;
-    const message = await botService.sendHarshAccelerationAlert(webhookData);
-    await bot.telegram.sendMessage(CHAT_ID, message, {
-      parse_mode: "MarkdownV2",
-    });
+    const { message, url } = await botService.sendHarshAccelerationAlert(
+      webhookData
+    );
+    if (!url) {
+      await bot.telegram.sendMessage(
+        CHAT_ID,
+        message + "\nMedia unavailable, sending message without video",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
+    } else {
+      await bot.telegram.sendVideo(
+        CHAT_ID,
+        { url: url },
+        {
+          caption: message,
+          parse_mode: "MarkdownV2",
+        }
+      );
+    }
     console.log("✅ Harsh Acceleration Alert sent to Telegram");
   } catch (error) {
     console.error("❌ Error sending Harsh Acceleration Alert:", error);
@@ -150,10 +215,27 @@ export const sendSevereSpeedingAlert = async (req: Request, res: Response) => {
       JSON.stringify(req.body, null, 2)
     );
     const webhookData = req.body as SevereSpeedingIncidentEvent;
-    const message = await botService.sendSevereSpeedingAlert(webhookData, res);
-    await bot.telegram.sendMessage(CHAT_ID, message, {
-      parse_mode: "MarkdownV2",
-    });
+    const { message, url } = await botService.sendSevereSpeedingAlert(
+      webhookData
+    );
+    if (!url) {
+      await bot.telegram.sendMessage(
+        CHAT_ID,
+        message + "\nMedia unavailable, sending message without video",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
+    } else {
+      await bot.telegram.sendVideo(
+        CHAT_ID,
+        { url: url },
+        {
+          caption: message,
+          parse_mode: "MarkdownV2",
+        }
+      );
+    }
     console.log("✅ Severe Speeding Alert sent to Telegram");
   } catch (error) {
     console.error("❌ Error sending Severe Speeding Alert:", error);
@@ -173,11 +255,25 @@ export const sendHarshTurnAlert = async (req: Request, res: Response) => {
     );
 
     const webhookData = req.body as HarshEventAlertIncidentEvent;
-    const message = await botService.sendHarshTurnAlert(webhookData);
-
-    await bot.telegram.sendMessage(CHAT_ID, message, {
-      parse_mode: "MarkdownV2",
-    });
+    const { message, url } = await botService.sendHarshTurnAlert(webhookData);
+    if (!url) {
+      await bot.telegram.sendMessage(
+        CHAT_ID,
+        message + "\nMedia unavailable, sending message without video",
+        {
+          parse_mode: "MarkdownV2",
+        }
+      );
+    } else {
+      await bot.telegram.sendVideo(
+        CHAT_ID,
+        { url: url },
+        {
+          caption: message,
+          parse_mode: "MarkdownV2",
+        }
+      );
+    }
 
     console.log("✅ Harsh Turn Alert sent to Telegram");
   } catch (error) {
